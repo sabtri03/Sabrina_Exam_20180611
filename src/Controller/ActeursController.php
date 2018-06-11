@@ -67,7 +67,4 @@ class ActeursController extends AbstractController
         return $this->redirectToRoute('acteurs_all');
     }
 
-
-
-
 }
