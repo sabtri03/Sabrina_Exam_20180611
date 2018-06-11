@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -40,6 +42,26 @@ class Films
      * @ORM\Column(type="string", length=45, nullable=true)
      */
     private $realisateur;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Genres", inversedBy="films")
+     */
+    private $genres;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Affiches", cascade={"persist", "remove"})
+     */
+    private $affiches;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Acteurs", inversedBy="films")
+     */
+    private $acteurs;
+
+    public function __construct()
+    {
+        $this->acteurs = new ArrayCollection();
+    }
 
     public function getId()
     {
@@ -102,6 +124,57 @@ class Films
     public function setRealisateur(?string $realisateur): self
     {
         $this->realisateur = $realisateur;
+
+        return $this;
+    }
+
+    public function getGenres(): ?Genres
+    {
+        return $this->genres;
+    }
+
+    public function setGenres(?Genres $genres): self
+    {
+        $this->genres = $genres;
+
+        return $this;
+    }
+
+    public function getAffiches(): ?Affiches
+    {
+        return $this->affiches;
+    }
+
+    public function setAffiches(?Affiches $affiches): self
+    {
+        $this->affiches = $affiches;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Acteurs[]
+     */
+    public function getActeurs(): Collection
+    {
+        return $this->acteurs;
+    }
+
+    public function addActeur(Acteurs $acteur): self
+    {
+        if (!$this->acteurs->contains($acteur)) {
+            //$this->acteurs[] = $acteur;
+            $this->acteurs->add($acteur);
+        }
+
+        return $this;
+    }
+
+    public function removeActeur(Acteurs $acteur): self
+    {
+        if ($this->acteurs->contains($acteur)) {
+            $this->acteurs->removeElement($acteur);
+        }
 
         return $this;
     }

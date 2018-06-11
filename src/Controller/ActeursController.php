@@ -69,7 +69,5 @@ class ActeursController extends AbstractController
 
 
 
-    //Add method form here ?
-
 
 }

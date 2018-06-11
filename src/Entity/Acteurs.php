@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -40,6 +42,16 @@ class Acteurs
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $image_url;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Films", mappedBy="acteurs")
+     */
+    private $films;
+
+    public function __construct()
+    {
+        $this->films = new ArrayCollection();
+    }
 
     public function getId()
     {
@@ -102,6 +114,34 @@ class Acteurs
     public function setImageUrl(?string $image_url): self
     {
         $this->image_url = $image_url;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Films[]
+     */
+    public function getFilms(): Collection
+    {
+        return $this->films;
+    }
+
+    public function addFilm(Films $film): self
+    {
+        if (!$this->films->contains($film)) {
+            $this->films[] = $film;
+            $film->addActeur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFilm(Films $film): self
+    {
+        if ($this->films->contains($film)) {
+            $this->films->removeElement($film);
+            $film->removeActeur($this);
+        }
 
         return $this;
     }

@@ -3,9 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Films;
+use App\Form\FilmsType;
 use App\Services\FixturesManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\BrowserKit\Request;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class FilmsController extends AbstractController
@@ -66,11 +67,28 @@ class FilmsController extends AbstractController
     }
 
 
-// add method form here
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Route("/films/form", name="films_form")
+     */
+    public function AddForm( Request $request ) {
 
+        $films = new Films();
+        $form = $this->createForm(FilmsType::class, $films);
+        $form->handleRequest($request);
 
+        if($form->isSubmitted() && $form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($films);
+            $em->flush();
+            return $this->redirectToRoute('homeAction');
+        }
 
-
+        return $this->render('films/form.html.twig',
+            ['form'=>$form->createView()]
+        );
+    }
 
 
     /**
@@ -83,14 +101,6 @@ class FilmsController extends AbstractController
             ['films'=>$films]
         );
     }
-
-
-
-
-
-
-// Add here button update and edit
-
 
 
 }
