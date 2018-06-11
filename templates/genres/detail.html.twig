@@ -1,0 +1,25 @@
+{% extends 'genres/layout.html.twig' %}
+
+{% block header_content %}<h1>{{ genres.nom }}</h1>{% endblock %}
+
+{% block container %}
+    <div class="container">
+        <div class="row">
+            <div class="media">
+                <h5>List de film par genres: </h5>
+                <br/>
+               <ul>
+                   {% if  genres.films is not null%}
+                    {% for film in genres.films %}
+                        <li>
+                            <a href="{{ path('films_show', {'id':film.id}) }}">
+                                <p>{{ film.title }}</p>
+                            </a>
+                        </li>
+                    {% endfor %}
+                   {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}

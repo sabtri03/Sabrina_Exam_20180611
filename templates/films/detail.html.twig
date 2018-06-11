@@ -1,0 +1,38 @@
+{% extends 'films/layout.html.twig' %}
+
+{% block header_content %}<h1>{{ films.title }}</h1>{% endblock %}
+
+{% block container %}
+    <div class="container">
+        <div class="row">
+            <div class="media">
+                {% if films.affiches is not null %}
+                    <img class="card-img-top" src="{{ films.affiches.imageUrl }}" alt="image" />
+                {% endif %}
+            </div>
+            <div class="media-body">
+              {% if films.genres is not null %}
+                    <div class="badge badge-info">
+                        <a href="{{ path('genres_show', {'id':films.genres.id}) }}"> {{ films.genres.nom }}</a>
+                    </div>
+                {% endif %}
+                <p>{{ films.resume }}</p>
+                <p>Date de Sortie: {{ films.dateSortie|date("d/m/Y")  }}</p>
+                <p>Production: {{ films.production }}</p>
+                <p>Realisation: {{ films.realisateur }}</p>
+                <p>Acteurs: </p>
+                <ul>
+                    {% if films.getActeurs() is not null %}
+                        {% for acteurs in films.getActeurs() %}
+                            <li>
+                                <div>
+                                    <p>{{ acteurs.nom }}</p>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}

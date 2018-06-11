@@ -1,0 +1,23 @@
+{% extends 'films/layout.html.twig' %}
+
+{% block title %}Films{% endblock %}
+
+{% block row_content %}
+    <div class="row">
+        {% for film in films %}
+            <div class="col-sm-6 col-md-4">
+                <div class="card mb-4">
+                    {% if film.affiches is not null %}
+                        <img class="card-img-top" src="{{ film.affiches.imageUrl }}" alt="image" />
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ film.title }}</h5>
+                        <p class="card-text">{{ film.resume | slice(0,100) }}(...)</p>
+
+                        <a href="{{ path('films_show', {'id': loop.index}) }}" class="card-link">Lire la suite</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

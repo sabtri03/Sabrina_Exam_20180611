@@ -1,0 +1,17 @@
+{% extends 'acteurs/layout.html.twig' %}
+
+{% block title %}Acteurs{% endblock %}
+
+{% block row_content %}
+    <div class="row">
+        {% for acteur in acteurs %}
+            <div class="col-sm-6 col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ acteur.nom }}</h5>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'affiches/layout.html.twig' %}
+
+{% block title %}Affiches{% endblock %}
+
+{% block row_content %}
+    <div class="row">
+        {% for affiche in affiches %}
+            <div class="col-sm-6 col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <img class="card-img-top" src="{{ affiche.imageUrl }}" alt="image" />
+                     </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
